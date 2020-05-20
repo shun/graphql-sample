@@ -1,0 +1,26 @@
+{
+   "name": "new-typeorm-project",
+   "version": "0.0.1",
+   "description": "Awesome project developed with TypeORM.",
+   "devDependencies": {
+      "ts-node": "3.3.0",
+      "@types/node": "^8.0.29",
+      "typescript": "3.3.3333",
+      "@graphql-codegen/typescript": "1.13.2",
+      "@graphql-codegen/typescript-resolvers": "1.13.2",
+      "@graphql-codegen/introspection": "1.13.2"
+   },
+   "dependencies": {
+      "typeorm": "0.2.24",
+      "reflect-metadata": "^0.1.10",
+      "mysql": "^2.14.1"
+   },
+   "scripts": {
+      "start": "ts-node src/index.ts",
+      "typeorm": "ts-node -r tsconfig-paths/register ${NODE_PATH}/typeorm/cli.js",
+      "codegen": "graphql-codegen --config codegen.yml",
+      "migration:create": "ts-node -r tsconfig-paths/register ${NODE_PATH}/typeorm/cli.js migration:create",
+      "migration:generate": "ts-node -r tsconfig-paths/register ${NODE_PATH}/typeorm/cli.js migration:generate",
+      "migration:run": "ts-node -r tsconfig-paths/register ${NODE_PATH}/typeorm/cli.js migration:run"
+   }
+}

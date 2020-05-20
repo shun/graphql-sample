@@ -1,0 +1,74 @@
+version: "3"
+
+services:
+  #  proxy:
+  #    image: nginx:stable
+  #    volumes:
+  #      - ./frontend/app:/usr/share/nginx/html
+  #    ports:
+  #      - "20080:80"
+  #
+  #  frontend:
+  #    image: kudoshunsuke/booking-system-frontend
+  #    build:
+  #      context: ./frontend
+  #      dockerfile: ./Dockerfile
+  #    environment:
+  #      LOCALUID: 1000
+  #      LOCALGID: 1000
+  #      NODE_PATH: /usr/local/lib/node_modules
+  #    volumes:
+  #      - ./frontend/entrypoint.sh:/entrypoint.sh:ro
+  #      - ./frontend/app:/app
+  #      - ./frontend/.bashrc:/home/node/.bashrc
+  #    entrypoint: "/entrypoint.sh"
+  #    command: "bash"
+  #    tty: true
+  #    ports:
+  #      - "18080:8080"
+  #
+  backend:
+    image: kudoshunsuke/booking-system-backend
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_PATH: /usr/local/lib/node_modules
+      LOCALUID: 1000
+      LOCALGID: 1000
+      MYSQL_DATABASE: "booking_prod"
+      MYSQL_USER: "booking"
+      MYSQL_PASSWORD: "booking"
+    volumes:
+      - ./backend/entrypoint.sh:/entrypoint.sh:ro
+      - ./backend/app:/app
+      - ./backend/.bashrc:/home/node/.bashrc
+        #- /etc/group:/etc/group:ro
+        #- /etc/passwd:/etc/passwd:ro
+    entrypoint: "/entrypoint.sh"
+    command: "bash"
+    tty: true
+    ports:
+      - "4000:4000"
+
+  db:
+    image: mariadb:10
+    environment:
+      MYSQL_ROOT_PASSWORD: "maria"
+      MYSQL_DATABASE: "booking_prod"
+      MYSQL_USER: "booking"
+      MYSQL_PASSWORD: "booking"
+      MYSQL_ALLOW_EMPTY_PASSWORD: 0
+      # MYSQL_RANDOM_ROOT_PASSWORD:
+
+    command: "mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+    volumes:
+      - mysql:/var/lib/mysql
+    restart: always
+    ports:
+      - "13306:3306"
+
+volumes:
+  mysql:
+    driver: "local"
+
