@@ -1,0 +1,7 @@
+h1 {
+  margin: 5px;
+}
+
+body .ui-datepicker table {
+  font-size: 8px !important;
+}

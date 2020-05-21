@@ -10,5 +10,9 @@ usermod -u $LOCALUID node
 groupdel tmpgrp
 
 chown -R node:node /app
+if [ ! -e /migration_done ]; then
+    npm run migration:run
+    touch /migration_done
+fi
 su node
 exec "$@"
